@@ -8,9 +8,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../theme/colors';
 import size from '../../theme/size';
 import fonts from '../../theme/fonts';
+import Comment from '../Comment';
+import {IPost} from '../../types/models';
 
-const FeedPost = ({post}) => {
-  console.log(post);
+interface IFeedPost {
+  post: IPost;
+}
+
+const FeedPost = ({post}: IFeedPost) => {
   return (
     <View style={styles.post}>
       {/* Header */}
@@ -71,7 +76,7 @@ const FeedPost = ({post}) => {
         {/* Likes */}
         <Text style={styles.text}>
           Liked by <Text style={styles.boldText}>Abdullahi </Text> and{' '}
-          <Text style={styles.boldText}>{post.nofLikes}</Text> others
+          <Text style={styles.boldText}>{post.noflikes}</Text> others
         </Text>
         {/* Description */}
         <Text style={styles.text}>
@@ -79,14 +84,10 @@ const FeedPost = ({post}) => {
         </Text>
 
         {/* Comments */}
-        <Text> View all 16 comments</Text>
-        <View style={styles.comment}>
-          <Text style={[styles.commentText]}>
-            <Text style={styles.boldText}> Abdullahi </Text>{' '}
-            {post.comments[0].comment}
-          </Text>
-          <AntDesign name="hearto" style={styles.icon} color={colors.black} />
-        </View>
+        <Text> View all {post.nofComment} comments</Text>
+        {post.comments.map(comment => (
+          <Comment comment={comment} key={comment.id} />
+        ))}
         <Text>{post.createdAt}</Text>
       </View>
     </View>
