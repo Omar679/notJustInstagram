@@ -1,10 +1,11 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 
+import DoublePressable from '../DoublePressable';
 import colors from '../../theme/colors';
 import size from '../../theme/size';
 import fonts from '../../theme/fonts';
@@ -16,6 +17,16 @@ interface IFeedPost {
 }
 
 const FeedPost = ({post}: IFeedPost) => {
+  const [expandDescription, setexpandDescription] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleDescription = () => {
+    setexpandDescription(v => !v);
+  };
+  const toggleLike = () => {
+    setIsLiked(v => !v);
+  };
+
   return (
     <View style={styles.post}>
       {/* Header */}
@@ -37,23 +48,25 @@ const FeedPost = ({post}: IFeedPost) => {
       </View>
 
       {/* Content */}
-
-      <Image
-        source={{
-          uri: post.image,
-        }}
-        style={styles.image}
-      />
+      <DoublePressable onDoublePress={toggleLike}>
+        <Image
+          source={{
+            uri: post.image,
+          }}
+          style={styles.image}
+        />
+      </DoublePressable>
 
       {/* footer */}
 
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
           <AntDesign
-            name="hearto"
+            onPress={toggleLike}
+            name={isLiked ? 'heart' : 'hearto'}
             size={size.m}
-            style={styles.icon}
-            color={colors.black}
+            style={[styles.icon]}
+            color={isLiked ? colors.accent : colors.black}
           />
           <Ionicons
             name="chatbubble-outline"
@@ -76,15 +89,18 @@ const FeedPost = ({post}: IFeedPost) => {
         {/* Likes */}
         <Text style={styles.text}>
           Liked by <Text style={styles.boldText}>Abdullahi </Text> and{' '}
-          <Text style={styles.boldText}>{post.noflikes}</Text> others
+          <Text style={styles.boldText}>{post.nofLike}</Text> others
         </Text>
         {/* Description */}
-        <Text style={styles.text}>
+        <Text style={styles.text} numberOfLines={expandDescription ? 0 : 2}>
           <Text style={styles.boldText}> Abdullahi </Text> {post.description}
+        </Text>
+        <Text onPress={toggleDescription}>
+          {expandDescription ? 'See Less' : 'See More'}
         </Text>
 
         {/* Comments */}
-        <Text> View all {post.nofComment} comments</Text>
+        <Text> View all {post.nofcomment} comments</Text>
         {post.comments.map(comment => (
           <Comment comment={comment} key={comment.id} />
         ))}
@@ -118,7 +134,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   iconContainer: {flexDirection: 'row', marginBottom: 5},
-  icon: {color: colors.black, marginHorizontal: 5},
+  icon: {marginHorizontal: 5},
 
   footer: {padding: 10},
   boldText: {fontWeight: fonts.weight.bold},

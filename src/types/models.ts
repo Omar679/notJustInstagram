@@ -6,15 +6,14 @@ export interface IPost {
   video?: string;
   description?: string;
   user: IUser;
-  nofComment: number;
-  noflikes: number;
+  nofcomment: number;
+  nofLike: number;
   comments: IComment[];
 }
 export interface IUser {
   id: string;
   username: string;
   image?: string;
-  name: string;
   bio?: string;
   posts?: string;
   website?: string;
