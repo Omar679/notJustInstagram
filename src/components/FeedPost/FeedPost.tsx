@@ -12,6 +12,7 @@ import size from '../../theme/size';
 import fonts from '../../theme/fonts';
 import Comment from '../Comment';
 import {IPost} from '../../types/models';
+//import VideoPlayer from '../VideoPlayer';
 
 interface IFeedPost {
   post: IPost;
@@ -44,6 +45,9 @@ const FeedPost = ({post}: IFeedPost) => {
   } else if (post.images) {
     content = <Carousel images={post.images} handlDoublePress={toggleLike} />;
   }
+  // else if (post.video) {
+  //   content = <VideoPlayer src={post.video} />;
+  // }
 
   return (
     <View style={styles.post}>
