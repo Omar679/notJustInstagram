@@ -47,8 +47,8 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
     content = <Carousel images={post.images} handlDoublePress={toggleLike} />;
   } else if (post.video) {
     content = (
-      <DoublePressable>
-        <VideoPlayer paused={!isVisible} src={post.video} />;
+      <DoublePressable onDoublePress={toggleLike}>
+        <VideoPlayer paused={!isVisible} src={post.video} />
       </DoublePressable>
     );
   }
