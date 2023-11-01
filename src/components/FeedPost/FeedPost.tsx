@@ -12,13 +12,14 @@ import size from '../../theme/size';
 import fonts from '../../theme/fonts';
 import Comment from '../Comment';
 import {IPost} from '../../types/models';
-//import VideoPlayer from '../VideoPlayer';
+import VideoPlayer from '../VideoPlayer';
 
 interface IFeedPost {
   post: IPost;
+  isVisible: boolean;
 }
 
-const FeedPost = ({post}: IFeedPost) => {
+const FeedPost = ({post, isVisible}: IFeedPost) => {
   const [expandDescription, setexpandDescription] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -44,10 +45,13 @@ const FeedPost = ({post}: IFeedPost) => {
     );
   } else if (post.images) {
     content = <Carousel images={post.images} handlDoublePress={toggleLike} />;
+  } else if (post.video) {
+    content = (
+      <DoublePressable>
+        <VideoPlayer paused={!isVisible} src={post.video} />;
+      </DoublePressable>
+    );
   }
-  // else if (post.video) {
-  //   content = <VideoPlayer src={post.video} />;
-  // }
 
   return (
     <View style={styles.post}>
