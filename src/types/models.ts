@@ -5,11 +5,12 @@ export interface IPost {
   images?: string[];
   video?: string;
   description?: string;
-  user: IUser;
-  nofcomment: number;
-  nofLike: number;
-  comments: IComment[];
+  user?: IUser;
+  nofcomment?: number;
+  nofLike?: number;
+  comments?: IComment[];
 }
+
 export interface IUser {
   id: string;
   username: string;
