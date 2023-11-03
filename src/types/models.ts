@@ -18,6 +18,7 @@ export interface IUser {
   bio?: string;
   posts?: string;
   website?: string;
+  name?: string;
 }
 export interface IComment {
   id: string;
